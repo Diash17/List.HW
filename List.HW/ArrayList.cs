@@ -4,10 +4,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace List_HW
+namespace MyLists
 {
     public class ArrayList
     {
+        public override string ToString()
+        {
+            string s = "[";
+
+            for (int i = 0; i < Length; i++)
+            {
+                s += $"{_array[i]} ";
+            }
+            s += "]";
+            return s;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            bool isEqual = true;
+
+            if (obj == null || !(obj is ArrayList))
+            {
+                isEqual = false;
+            }
+            else
+            {
+                ArrayList list = (ArrayList)obj;
+
+                if (list.Length != this.Length)
+                {
+                    isEqual = false;
+                }
+                else
+                {
+                    for (int i = 0; i < this.Length; i++)
+                    {
+                        if (list[i] != this[i])
+                        {
+                            isEqual = false;
+                        }
+                    }
+                }
+            }
+            return isEqual;
+        }
         public int Length { get; private set; }
         private int[] _array;
 
@@ -69,15 +110,15 @@ namespace List_HW
         {
             int newLength = (int)(_array.Length * 1.5 + 1);
             int[] newArray = new int[newLength];
-            Copy(newArray);
+            CopyTo(newArray);
         }
         private void CutSize()
         {
             if (_array.Length / Length > 2)
             {
-                int newLenght = (int)(_array.Length / 1.3d);
-                int[] newArray = new int[newLenght];
-                Copy(newArray);
+                int newLength = (int)(_array.Length / 1.3d);
+                int[] newArray = new int[newLength];
+                CopyTo(newArray);
             }
         }
         private void MoveRight(int index = 0)
@@ -129,9 +170,16 @@ namespace List_HW
             }
             _array = newArray;
         }
-        private void Copy(int[] newArray)
+        private void CopyTo(int[] newArray)
         {
-            for (int i = 0; i < _array.Length; i++)
+            int minSize;
+            if (newArray.Length < _array.Length) {
+                minSize = newArray.Length;
+            } else
+            {
+                minSize = _array.Length;
+            }
+            for (int i = 0; i < minSize; i++)
             {
                 newArray[i] = _array[i];
             }
@@ -139,7 +187,7 @@ namespace List_HW
         }
 
         // добавление значения в конец
-        public void ChangeLastOne(int value)
+        public void AddLastOne(int value)
         {
             if (Length >= _array.Length)
             {
@@ -150,7 +198,7 @@ namespace List_HW
         }
 
         //добавление значения в начало
-        public void ChangeFirstOne(int value)
+        public void AddFirstOne(int value)
         {
             if (Length >= _array.Length)
             {
@@ -261,7 +309,7 @@ namespace List_HW
         }
         //вернуть длину
 
-        public int GetLenght(int count)
+        public int GetLength(int value)
         {
             return Length;
         }
@@ -435,7 +483,7 @@ namespace List_HW
             CutSize();
             return index;
         }
-        public int DeleteAllByValueGetIndex(int value)
+        public int DeleteAllByValueGetNumber(int value)
         {
             if (Length < 1)
             {

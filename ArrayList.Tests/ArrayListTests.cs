@@ -331,6 +331,11 @@ namespace MyLists.Tests
         {
             Assert.Throws<Exception>(() => actualList.AddListByIndex(list, index));
         }
+        [TestCaseSource(typeof(AddListByIndexNegativeTestSource_WhenIndexIsOutOfLength_ShouldThrowException))]
+        public void AddListByIndexNegativeTest_WhenIndexIsOutOfLength_ShouldThrowException(int index, ArrayList list, ArrayList actualList)
+        {
+            Assert.Throws<IndexOutOfRangeException>(() => actualList.AddListByIndex(list, index));
+        }
 
     }
 }

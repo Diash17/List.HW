@@ -100,26 +100,26 @@ namespace MyLists.Tests.ArrayListNegativeTestSources
         {
             ArrayList list = new ArrayList(new int[] { });
             int value = 2;
-            yield return new object[] { value,list };
+            yield return new object[] { value, list };
         }
-    } 
+    }
     internal class AccessByIndexTestSource_WhenIndexIsOutOfLength_ShouldThrowException : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            ArrayList list = new ArrayList(new int[] { 1,2,3});
+            ArrayList list = new ArrayList(new int[] { 1, 2, 3 });
             int index = -1;
-            yield return new object[] {index,list };
+            yield return new object[] { index, list };
         }
-    } 
+    }
     internal class EditValueByIndexTestSource_WhenIndexIsOutOfLength_ShouldThrowException : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            ArrayList list = new ArrayList(new int[] { 1,2});
+            ArrayList list = new ArrayList(new int[] { 1, 2 });
             int index = -1;
             int value = 2;
-            yield return new object[] {index,value,list };
+            yield return new object[] { index, value, list };
         }
     }
     internal class EditValueByIndexTestSource_WhenLengthEqualZero_ShouldThrowException : IEnumerable
@@ -129,39 +129,39 @@ namespace MyLists.Tests.ArrayListNegativeTestSources
             ArrayList list = new ArrayList(new int[] { });
             int index = 1;
             int value = 2;
-            yield return new object[] {index,value,list };
+            yield return new object[] { index, value, list };
         }
     }
     internal class FindMaxTestSource_WhenLengthEqualZero_ShouldThrowException : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            ArrayList list = new ArrayList(new int[] { });         
-            yield return new object[] {list };
+            ArrayList list = new ArrayList(new int[] { });
+            yield return new object[] { list };
         }
     }
     internal class FindMinTestSource_WhenLengthEqualZero_ShouldThrowException : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            ArrayList list = new ArrayList(new int[] { });         
-            yield return new object[] {list };
+            ArrayList list = new ArrayList(new int[] { });
+            yield return new object[] { list };
         }
     }
     internal class FindIndexOfMaxTestSource_WhenLengthEqualZero_ShouldThrowException : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            ArrayList list = new ArrayList(new int[] { });         
-            yield return new object[] {list };
+            ArrayList list = new ArrayList(new int[] { });
+            yield return new object[] { list };
         }
     }
     internal class FindIndexOfMinTestSource_WhenLengthEqualZero_ShouldThrowException : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            ArrayList list = new ArrayList(new int[] { });         
-            yield return new object[] {list };
+            ArrayList list = new ArrayList(new int[] { });
+            yield return new object[] { list };
         }
     }
     internal class DeleteFirstByValueGetIndexTestSource_WhenLengthEqualZero_ShouldThrowException : IEnumerable
@@ -170,7 +170,7 @@ namespace MyLists.Tests.ArrayListNegativeTestSources
         {
             ArrayList list = new ArrayList(new int[] { });
             int value = 1;
-            yield return new object[] {value,list };
+            yield return new object[] { value, list };
         }
     }
     internal class DeleteAllByValueGetNumberTestSource_WhenLengthEqualZero_ShouldThrowException : IEnumerable
@@ -179,23 +179,23 @@ namespace MyLists.Tests.ArrayListNegativeTestSources
         {
             ArrayList list = new ArrayList(new int[] { });
             int value = 1;
-            yield return new object[] {value,list };
+            yield return new object[] { value, list };
         }
     }
     internal class AddListToEndNegativeTestSource_WhenLengthEqualZero_ShouldThrowException : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            ArrayList list = new ArrayList(new int[] { 1,2,3});
+            ArrayList list = new ArrayList(new int[] { 1, 2, 3 });
             ArrayList secondList = new ArrayList(new int[] { });
-            yield return new object[] {secondList,list };
+            yield return new object[] { secondList, list };
         }
     }
     internal class AddListToBeginningNegativeTestSource_WhenLengthEqualZero_ShouldThrowException : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            ArrayList list = new ArrayList(new int[] {1,2,3 });
+            ArrayList list = new ArrayList(new int[] { 1, 2, 3 });
             ArrayList secondList = new ArrayList(new int[] { });
             yield return new object[] { secondList, list };
         }
@@ -208,8 +208,16 @@ namespace MyLists.Tests.ArrayListNegativeTestSources
             int index = 0;
             ArrayList secondList = new ArrayList(new int[] { });
             yield return new object[] { index, secondList, list };
-
-
+        }
+    }
+    internal class AddListByIndexNegativeTestSource_WhenIndexIsOutOfLength_ShouldThrowException : IEnumerable
+    {
+        public IEnumerator GetEnumerator()
+        {
+            ArrayList list = new ArrayList(new int[] { 9, 9, 9, 9 });
+            int index = -1;
+            ArrayList secondList = new ArrayList(new int[] { 6});
+            yield return new object[] { index, secondList, list };
         }
     }
 }

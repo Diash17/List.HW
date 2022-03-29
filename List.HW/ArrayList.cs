@@ -8,184 +8,6 @@ namespace MyLists
 {
     public class ArrayList
     {
-        public override string ToString()
-        {
-            string s = "[";
-
-            for (int i = 0; i < Length; i++)
-            {
-                s += $"{_array[i]} ";
-            }
-            s += "]";
-            return s;
-        }
-
-        public override bool Equals(object? obj)
-        {
-            bool isEqual = true;
-
-            if (obj == null || !(obj is ArrayList))
-            {
-                isEqual = false;
-            }
-            else
-            {
-                ArrayList list = (ArrayList)obj;
-
-                if (list.Length != this.Length)
-                {
-                    isEqual = false;
-                }
-                else
-                {
-                    for (int i = 0; i < this.Length; i++)
-                    {
-                        if (list[i] != this[i])
-                        {
-                            isEqual = false;
-                        }
-                    }
-                }
-            }
-            return isEqual;
-        }
-        public int Length { get; private set; }
-        private int[] _array;
-
-        public int this[int index]
-        {
-            get
-            {
-                if (index < 0 || index >= Length)
-                {
-                    throw new IndexOutOfRangeException();
-                }
-                return _array[index];
-            }
-            set
-            {
-                if (index < 0 || index >= Length)
-                {
-                    throw new IndexOutOfRangeException();
-                }
-                _array[index] = value;
-            }
-        }
-
-        public ArrayList()
-        {
-            _array = new int[10];
-            Length = 0;
-        }
-        public ArrayList(int Length)
-        {
-            _array = new int[(int)(Length * 1.5)];
-            this.Length = Length;
-        }
-        public ArrayList(int[] array)
-        {
-            if (array == null || array.Length == 0)
-            {
-                _array = new int[10];
-                Length = 0;
-            }
-            else
-            {
-                _array = array;
-                Length = array.Length;
-                UpSize();
-            }
-        }
-
-        public void Write()
-        {
-            for (int i = 0; i < Length; i++)
-            {
-                Console.Write(_array[i] + " ");
-            }
-            Console.WriteLine();
-        }
-
-        private void UpSize()
-        {
-            int newLength = (int)(_array.Length * 1.5 + 1);
-            int[] newArray = new int[newLength];
-            CopyTo(newArray);
-        }
-        private void CutSize()
-        {
-            if (_array.Length / Length > 2)
-            {
-                int newLength = (int)(_array.Length / 1.3d);
-                int[] newArray = new int[newLength];
-                CopyTo(newArray);
-            }
-        }
-        private void MoveRight(int index = 0)
-        {
-            int[] newArray = new int[Length + 1];
-            for (int i = 0; i < index; i++)
-            {
-                newArray[i] = _array[i];
-            }
-            for (int i = index; i < Length; i++)
-            {
-                newArray[i + 1] = _array[i];
-            }
-            _array = newArray;
-        }
-        private void MoveLeftWithIndex(int index = 0)
-        {
-            int[] newArray = new int[_array.Length - 1];
-            for (int i = 0; i < index; i++)
-            {
-                newArray[i] = _array[i];
-            }
-            for (int i = index; i < _array.Length - 1; i++)
-            {
-                newArray[i] = _array[i + 1];
-            }
-            _array = newArray;
-        }
-        private void MoveLeftWithFewIndex(int elements, int index = 0)
-        {
-            Length -= elements;
-            int[] newArray = new int[Length];
-            for (int i = 0; i < index; i++)
-            {
-                newArray[i] = _array[i];
-            }
-            for (int i = index; i < Length; i++)
-            {
-                newArray[i] = _array[i + elements];
-            }
-            _array = newArray;
-        }
-        private void MoveLeft()
-        {
-            int[] newArray = new int[Length - 1];
-            for (int i = 0; i < Length - 1; i++)
-            {
-                newArray[i] = _array[i + 1];
-            }
-            _array = newArray;
-        }
-        private void CopyTo(int[] newArray)
-        {
-            int minSize;
-            if (newArray.Length < _array.Length) {
-                minSize = newArray.Length;
-            } else
-            {
-                minSize = _array.Length;
-            }
-            for (int i = 0; i < minSize; i++)
-            {
-                newArray[i] = _array[i];
-            }
-            _array = newArray;
-        }
-
         // добавление значения в конец
         public void AddLastOne(int value)
         {
@@ -217,7 +39,7 @@ namespace MyLists
             {
                 UpSize();
             }
-            if (index < 0 || index > Length)
+            if (index < 0 || index > _array.Length)
             {
                 throw new IndexOutOfRangeException("index");
             }
@@ -254,7 +76,7 @@ namespace MyLists
                 throw new Exception("Array is null, can not delete element");
             }
 
-            if (index < 0 || index > _array.Length)
+            if (index < 0 || index > Length)
             {
                 throw new IndexOutOfRangeException("index");
             }
@@ -508,9 +330,13 @@ namespace MyLists
         //добавление списка(вашего самодельного) в конец
         public void AddListToEnd(ArrayList list)
         {
+            if (list.Length == 0 || _array.Length == 0)
+            {
+                throw new Exception("Cannot add an empty list or insert into an empty list");
+            }
             int newLength = Length + list.Length;
             int[] newArray = new int[newLength];
-            for (int i = 0; i < Length; i++)
+            for (int i = 0; i < newLength; i++)
             {
                 newArray[i] = _array[i];
             }
@@ -525,13 +351,17 @@ namespace MyLists
         //добавление списка в начало
         public void AddListToBeginning(ArrayList list)
         {
+            if (list.Length == 0 || _array.Length == 0)
+            {
+                throw new Exception("Cannot add an empty list or insert into an empty list");
+            }
             int newLength = Length + list.Length;
             int[] newArray = new int[newLength];
             for (int i = 0; i < list.Length; i++)
             {
                 newArray[i] = list[i];
             }
-            MoveRight(list.Length);
+            
             for (int i = 0; i < Length; i++)
             {
                 newArray[i + list.Length] = _array[i];
@@ -544,6 +374,14 @@ namespace MyLists
         public void AddListByIndex(ArrayList list, int index)
         {
             {
+                if (list.Length == 0 || _array.Length == 0)
+                {
+                    throw new Exception("Cannot add an empty list or insert into an empty list");
+                }
+                if (index < 0 || index > _array.Length)
+                {
+                    throw new IndexOutOfRangeException("index");
+                }
                 int newLength = Length + list.Length;
                 int[] newArray = new int[newLength];
                 for (int i = 0; i < index; i++)
@@ -561,6 +399,186 @@ namespace MyLists
                 _array = newArray;
                 Length = newArray.Length;
             }
+        }
+
+        public override string ToString()
+        {
+            string s = "[";
+
+            for (int i = 0; i < Length; i++)
+            {
+                s += $"{_array[i]} ";
+            }
+            s += "]";
+            return s;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            bool isEqual = true;
+
+            if (obj == null || !(obj is ArrayList))
+            {
+                isEqual = false;
+            }
+            else
+            {
+                ArrayList list = (ArrayList)obj;
+
+                if (list.Length != this.Length)
+                {
+                    isEqual = false;
+                }
+                else
+                {
+                    for (int i = 0; i < this.Length; i++)
+                    {
+                        if (list[i] != this[i])
+                        {
+                            isEqual = false;
+                        }
+                    }
+                }
+            }
+            return isEqual;
+        }
+        public int Length { get; private set; }
+        private int[] _array;
+
+        public int this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= Length)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                return _array[index];
+            }
+            set
+            {
+                if (index < 0 || index >= Length)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                _array[index] = value;
+            }
+        }
+
+        public ArrayList()
+        {
+            _array = new int[10];
+            Length = 0;
+        }
+        public ArrayList(int Length)
+        {
+            _array = new int[(int)(Length * 1.5)];
+            this.Length = Length;
+        }
+        public ArrayList(int[] array)
+        {
+            if (array == null || array.Length == 0)
+            {
+                _array = new int[10];
+                Length = 0;
+            }
+            else
+            {
+                _array = array;
+                Length = array.Length;
+                UpSize();
+            }
+        }
+
+        public void Write()
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                Console.Write(_array[i] + " ");
+            }
+            Console.WriteLine();
+        }
+
+        private void UpSize()
+        {
+            int newLength = (int)(_array.Length * 1.5 + 1);
+            int[] newArray = new int[newLength];
+            CopyTo(newArray);
+        }
+        private void CutSize()
+        {
+            if (_array.Length / Length > 2)
+            {
+                int newLength = (int)(_array.Length / 1.3d);
+                int[] newArray = new int[newLength];
+                CopyTo(newArray);
+            }
+        }
+        private void MoveRight(int index = 0)
+        {
+            int[] newArray = new int[Length + 1];
+            for (int i = 0; i < index; i++)
+            {
+                newArray[i] = _array[i];
+            }
+            for (int i = index; i < Length; i++)
+            {
+                newArray[i + 1] = _array[i];
+            }
+            _array = newArray;
+        }
+        private void MoveLeftWithIndex(int index = 0)
+        {
+            int[] newArray = new int[_array.Length - 1];
+            for (int i = 0; i < index; i++)
+            {
+                newArray[i] = _array[i];
+            }
+            for (int i = index; i < _array.Length - 1; i++)
+            {
+                newArray[i] = _array[i + 1];
+            }
+            _array = newArray;
+        }
+        private void MoveLeftWithFewIndex(int elements, int index = 0)
+        {
+            Length -= elements;
+            int[] newArray = new int[Length];
+            for (int i = 0; i < index; i++)
+            {
+                newArray[i] = _array[i];
+            }
+            for (int i = index; i < Length; i++)
+            {
+                newArray[i] = _array[i + elements];
+            }
+            _array = newArray;
+        }
+        private void MoveLeft()
+        {
+            int[] newArray = new int[Length - 1];
+            for (int i = 0; i < Length - 1; i++)
+            {
+                newArray[i] = _array[i + 1];
+            }
+            _array = newArray;
+        }
+        private void CopyTo(int[] newArray)
+        {
+            int minSize;
+            if (newArray.Length < _array.Length)
+            {
+                minSize = newArray.Length;
+            }
+            else
+            {
+                minSize = _array.Length;
+            }
+            for (int i = 0; i < minSize; i++)
+            {
+                newArray[i] = _array[i];
+            }
+            _array = newArray;
         }
     }
 }
